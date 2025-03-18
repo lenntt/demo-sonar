@@ -30,6 +30,9 @@
 
         <surefire-plugin.version>3.5.0</surefire-plugin.version>
         <compiler-plugin.version>3.13.0</compiler-plugin.version>
+
+        <sonar.organization>len</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
     <dependencyManagement>
         <dependencies>
