@@ -1,6 +1,7 @@
 package io.github.fontysvenlo.ais.restapi;
 
 import static io.javalin.apibuilder.ApiBuilder.crud;
+import static io.javalin.apibuilder.ApiBuilder.get;
 
 import io.javalin.Javalin;
 import io.github.fontysvenlo.ais.businesslogic.api.BusinessLogic;
@@ -38,6 +39,22 @@ public class APIServer {
             });
             config.router.apiBuilder(() -> {
                 crud("customers/{customer-id}", new CustomerResource(businessLogic.getCustomerManager()));
+
+                get("login", ctx -> {
+                    var password = ctx.queryParam("password");
+                    if (!password.equals("MyPassword")) {
+                        throw new IllegalArgumentException("Invalid password");
+                    }
+                    ctx.json(Map.of("token", "my-token"));
+                });
+
+                get("error", ctx -> {
+                    BusinessLogic businessBla = null;
+                    if(ctx.queryParam("init").equals("true")){
+                        businessBla = this.businessLogic;
+                    }
+                    ctx.json(businessBla.getCustomerManager().list());
+                });
             });
         });
 
